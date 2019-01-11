@@ -1,13 +1,17 @@
 class Component {
 	constructor(props = {}) {
+		if (!this.propTypes) this.propTypes = {}
+		const arrayKeysPropTypes = Object.keys(this.propTypes);
+		const arrayKeysProps = Object.keys(props);
+
 		switch (true) {
 			case typeof props !== 'object':
 				throw 'props need to be object.';
-			case !this.propTypes:
+			case arrayKeysPropTypes.length === 0 && arrayKeysProps.length:
 				throw 'there is no propTypes.';
-			case Object.keys(this.propTypes).length !== Object.keys(props).length:
+			case arrayKeysPropTypes.length !== arrayKeysProps.length:
 				throw 'number of propTypes doesn\'t match number of props.';
-			case !Object.keys(this.propTypes).every(key => this.type_check_v1(props[key], this.propTypes[key])):
+			case !arrayKeysPropTypes.every(key => this.type_check_v1(props[key], this.propTypes[key])):
 				throw 'props don\'t match propTypes.';
 			default:
 				this.props = props;
@@ -27,34 +31,38 @@ class Component {
 		}
 	}
 	
-	type_check_v2 (check, type) {
-		switch (true) {
-			case type.hasOwnProperty('type') && !type.hasOwnProperty('value') && !type.hasOwnProperty('enum'):
-				return type_check_v1(check, type.type);
-			case type.hasOwnProperty('type') && type.hasOwnProperty('value') && !type.hasOwnProperty('enum'):
-				return type_check_v1(check, type.type) && JSON.stringify(check) === JSON.stringify(type.value);
-			case !type.hasOwnProperty('type') && !type.hasOwnProperty('value') && type.hasOwnProperty('enum'):
-				return check === type.enum.length;
-			default:
-				return false;
-		}
-	}
-
 	display(newProps) {
+		this.props = newProps;
 		this.shouldUpdate();
 	}
 
 	shouldUpdate() {
 		const root = document.getElementById('root');
+		const autoClosingTag = [
+			'<area />',
+			'<base />',
+			'<br />',
+			'<col />',
+			'<embed />',
+			'<hr />',
+			'<img />',
+			'<input />',
+			'<link />',
+			'<meta />',
+			'<param />',
+			'<source />',
+			'<track />',
+			'<wbr />'
+		];
 
-		// const varMatches = this.render().match(/\{{(\w*)\}}/g);
+		const varMatches = this.render().match(/\{{(\w*)\}}/g);
 		let component = this.render();
 
-		// varMatches.forEach(match => {
-		// 	const value = match.substr(2).slice(0, -2).trim();
+		varMatches.forEach(match => {
+			const value = match.substr(2).slice(0, -2).trim();
 
-		// 	// component = component.replace(new RegExp(match, 'g'), my_object[value]());
-		// });
+			component = component.replace(new RegExp(match, 'g'), eval(value));
+		});
 
 		// const compMatches = component.match(/\<(\w* ?)\/>/g);
 
@@ -81,7 +89,7 @@ class Text extends Component {
 	}
 
 	render() {
-		return `Je suis un texte : ${this.props.text}`;
+		return `Je suis un texte : {{this.props.text}}`;
 	}
 }
 
@@ -93,10 +101,10 @@ Text.prototype.propTypes = {
 	abc: 'string',
 }
 
-const text = new Text({ abc: 'abc', text: 4 });
-console.log(text);
-
-// new Log();
+// const text = new Text({ abc: 'abc', text: 4 });
+// console.log(text);
+new Text({ abc: 'abc', text: 4 });
+new Log();
 
 // class Router extends Component {
 // 	constructor(props) {
