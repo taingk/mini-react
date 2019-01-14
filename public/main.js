@@ -1,4 +1,4 @@
-import Routage from './routage';
+import Routage from './routage.js';
 
 Routage();
 
