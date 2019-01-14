@@ -1,7 +1,5 @@
 class Router {
-	constructor(props) {
-		super(props);
-	}
+	constructor(props) {}
 
 	ucfirst(str) {
 	    return str.charAt(0).toUpperCase() + str.substring(1);

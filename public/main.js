@@ -1,4 +1,4 @@
-import Router from './router';
+import Router from './router.js';
 
 class Component {
 	constructor(props = {}) {
@@ -105,9 +105,8 @@ Text.prototype.propTypes = {
 
 // const text = new Text({ abc: 'abc', text: 4 });
 // console.log(text);
-new Text({ abc: 'abc', text: 4 });
+// new Text({ abc: 'abc', text: 4 });
 new Log();
-
 
 const routes = { 
 	routes: [
