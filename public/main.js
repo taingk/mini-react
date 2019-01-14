@@ -1,3 +1,7 @@
+import Routage from './routage';
+
+Routage();
+
 class Component {
 	constructor(props = {}) {
 		if (!this.propTypes) this.propTypes = {}
