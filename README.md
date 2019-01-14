@@ -2,8 +2,8 @@
 
 ## Start 
 
-Make up
+make up
 
 ## Stop
 
-Make down
+make down
