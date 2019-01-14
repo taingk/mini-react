@@ -1,6 +1,4 @@
-import Routage from './router';
-
-Routage();
+import Router from './router';
 
 class Component {
 	constructor(props = {}) {
@@ -109,3 +107,13 @@ Text.prototype.propTypes = {
 // console.log(text);
 new Text({ abc: 'abc', text: 4 });
 new Log();
+
+
+const routes = { 
+	routes: [
+		'/',
+		'/log',
+	]
+}
+
+new Router(routes);

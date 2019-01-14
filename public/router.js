@@ -1,8 +1,4 @@
-const Routage = () => console.log('routage');
-
-export default Routage;
-
-class Router extends Component {
+class Router {
 	constructor(props) {
 		super(props);
 	}
@@ -17,11 +13,4 @@ class Router extends Component {
 	}
 }
 
-const routes = { 
-	routes: [
-		'/',
-		'/log',
-	]
-}
-
-new Router(routes);
+export default Router;
