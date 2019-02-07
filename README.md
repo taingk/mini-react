@@ -1,5 +1,4 @@
-# mini-react
-
+# mini-rpg
 ## Start 
 
 make up
