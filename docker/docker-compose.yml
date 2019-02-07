@@ -4,6 +4,6 @@ services:
     container_name: nginx
     build: ./
     ports:
-      - 3000:80
+      - 4000:80
     volumes:
-      - ../:/usr/share/nginx/html
+      - ../:/usr/share/nginx/html:cached
