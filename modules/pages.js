@@ -209,11 +209,23 @@ export class Game {
     onSpell(e) {
         const spell = e.target.dataset.spell;
         this.j().attack(spell, this.opponent());
+
+        clearInterval(this.loop);
+        if (this.j1.hp > 0 && this.j2.hp > 0) {
+            this.gameLoop();
+            this.loop = setInterval(() => this.gameLoop(), 5000);
+        } else {
+            localStorage.setItem('winner', this.j1.hp > 0 ? this.j1.name : this.j2.name);
+            redirect('results');
+        }
     }
 }
 
 export class Results {
     constructor() {
-        console.log('Results');
+        this.root = document.getElementById('root');
+        this.root.classList.add('has-text-centered', 'container');
+        back('menu');
+        banner(`${localStorage.getItem('winner')} a gagné le combat !`);
     }
 }
