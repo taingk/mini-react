@@ -1,9 +1,9 @@
 export default class Router {
-    constructor(Pages) {
+    constructor(Pages, Alpha, Beta) {
         const uri = this.getUrlParams(window.location.search);
         this.pages = Pages;
         this.pagesName = ['name', 'game', 'results'];
-        this.redirect(uri);
+        this.redirect(uri, Alpha, Beta);
     }
 
     getUrlParams(search) {
@@ -17,9 +17,13 @@ export default class Router {
         return params
     }
 
-    redirect(uri) {
+    redirect(uri, Alpha, Beta) {
         if (uri && this.pagesName.includes(uri.pages)) {
-            new this.pages[uri.pages];
+            if (uri.pages === 'game') {
+                new this.pages[uri.pages](Alpha, Beta);
+            } else {
+                new this.pages[uri.pages];
+            }
         } else {
             new this.pages['default'];
         }

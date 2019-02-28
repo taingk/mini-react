@@ -33,7 +33,6 @@ export default class Fighter {
 
 }
 
-
 export class Alpha extends Fighter {
     constructor() {
         super();
@@ -44,8 +43,6 @@ export class Alpha extends Fighter {
             'Boule de feu': 20,
             'Eclat de givre': 15
         }
-        
-        !localStorage.getItem('j1') ? localStorage.setItem('j1', JSON.stringify(this)) : null;
     }
 }
 
@@ -59,7 +56,5 @@ export class Beta extends Fighter {
             'Rasengan': 20,
             'Chidori': 15
         }
-
-        !localStorage.getItem('j2') ? localStorage.setItem('j2', JSON.stringify(this)) : null;
     }
 }

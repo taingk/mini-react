@@ -9,6 +9,4 @@ const routes = {
     'results': Results
 };
 
-new Router(routes);
-new Alpha();
-new Beta();
+new Router(routes, Alpha, Beta);

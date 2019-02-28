@@ -113,15 +113,8 @@ export class Name {
         const name2 = document.getElementById("idJoueur2").value;
 
         if (name1 && name2 && type_check(name1, 'string') && type_check(name2, 'string')) {
-            const j1 = JSON.parse(localStorage.getItem('j1'));
-            const j2 = JSON.parse(localStorage.getItem('j2'));
-
-            j1.name = name1;
-            localStorage.setItem('j1', JSON.stringify(j1));
-
-            j2.name = name2;
-            localStorage.setItem('j2', JSON.stringify(j2));
-            
+            localStorage.setItem('name1', name1);
+            localStorage.setItem('name2', name2);
             redirect('game');
         } else {
             const error = document.querySelector('article');
@@ -134,14 +127,16 @@ export class Name {
 }
 
 export class Game {
-    constructor() {
-        this.j1 = JSON.parse(localStorage.getItem('j1'));
-        this.j2 = JSON.parse(localStorage.getItem('j2'));
+    constructor(Alpha, Beta) {
+        this.j1 = new Alpha();
+        this.j2 = new Beta();
+        this.j1.name = localStorage.getItem('name1');
+        this.j2.name = localStorage.getItem('name2');
         this.root = document.getElementById('root');
         this.root.classList.add('has-text-centered', 'container');
         this.player = ~~(Math.random() * (2 - 1 + 1)) + 1;
 
-        this.gameLoop();           
+        this.gameLoop();
         this.loop = setInterval(() => this.gameLoop(), 5000);    
     }
 
@@ -166,6 +161,10 @@ export class Game {
 
     j() {
         return this.player === 1 ? this.j1 : this.j2;
+    }
+
+    opponent() {
+        return this.player === 1 ? this.j2 : this.j1;
     }
 
     gameScreen() {
@@ -199,7 +198,7 @@ export class Game {
             const spell = document.createElement('li');
             spell.textContent = `${key} inflige ${value}`;
             spell.dataset.spell = key;
-            spell.addEventListener('click', this.onSpell);
+            spell.addEventListener('click', e => this.onSpell(e));
             list.appendChild(spell);
         }
         section.appendChild(list);
@@ -207,8 +206,9 @@ export class Game {
         return section;
     }
 
-    onSpell() {
-        console.log(this.dataset.spell);
+    onSpell(e) {
+        const spell = e.target.dataset.spell;
+        this.j().attack(spell, this.opponent());
     }
 }
 
