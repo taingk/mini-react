@@ -140,29 +140,33 @@ export class Game {
         this.root = document.getElementById('root');
         this.root.classList.add('has-text-centered', 'container');
         this.turn = 0;
-        back('name');
-        
-        this.gameLoop();
+        this.player = ~~(Math.random() * (2 - 1 + 1)) + 1;
+
+        this.gameLoop();           
+        this.loop = setInterval(() => this.gameLoop(), 5000);    
     }
 
     gameLoop()  {
-        const section = document.createElement('section');
-        section.id = 'game-screen';
-        section.classList.add('columns');
-
-        let player = ~~(Math.random() * (2 - 1 + 1)) + 1;
-        let turn = 1;
-        const j = player => player === 1 ? this.j1 : this.j2;
-        
-        // while (this.j1.hp || this.j2.hp) {
-            console.log('hey');
-            this.j2.hp = 0;
-            banner(`Au tour de ${j(player).name} de jouer`);
+        if (this.j1.hp && this.j2.hp) {
+            this.player = this.player === 1 ? 2 : 1;
+            this.root.innerHTML = '';
+            back('name');
+            const section = document.createElement('section');
+            section.id = 'game-screen';
+            section.classList.add('columns');
+            banner(`Au tour de ${this.j().name} de jouer`);
             this.root.appendChild(section);
+
+
+            
             this.gameScreen();
-            player = player === 1 ? 2 : 1;
-            turn += 1;
-        // }
+        } else {
+            clearInterval(this.loop);
+        }
+    }
+
+    j() {
+        return this.player === 1 ? this.j1 : this.j2;
     }
 
     gameScreen() {
