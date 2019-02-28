@@ -139,7 +139,6 @@ export class Game {
         this.j2 = JSON.parse(localStorage.getItem('j2'));
         this.root = document.getElementById('root');
         this.root.classList.add('has-text-centered', 'container');
-        this.turn = 0;
         this.player = ~~(Math.random() * (2 - 1 + 1)) + 1;
 
         this.gameLoop();           
@@ -158,7 +157,7 @@ export class Game {
             this.root.appendChild(section);
 
 
-            
+
             this.gameScreen();
         } else {
             clearInterval(this.loop);
@@ -172,10 +171,14 @@ export class Game {
     gameScreen() {
         const section = document.getElementById('game-screen');
  
-        section.appendChild(this.spells(this.j1));
+        if (this.player === 1) {
+            section.appendChild(this.spells());
+        }
         section.appendChild(this.battleground(this.j1));
         section.appendChild(this.battleground(this.j2));
-        section.appendChild(this.spells(this.j2));
+        if (this.player === 2) {
+            section.appendChild(this.spells());
+        }
     }
 
     battleground(j) {
@@ -186,13 +189,13 @@ export class Game {
         return section;
     }
 
-    spells(j) {
+    spells() {
         const section = document.createElement('section');
         section.classList.add('column', 'content');
         section.textContent = 'SPELLS';
 
         const list = document.createElement('ol');
-        for (let [key, value] of Object.entries(j.spells)) {
+        for (let [key, value] of Object.entries(this.j().spells)) {
             const spell = document.createElement('li');
             spell.textContent = `${key} inflige ${value}`;
             spell.dataset.spell = key;
