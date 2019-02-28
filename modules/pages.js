@@ -137,26 +137,19 @@ export class Game {
         this.player = ~~(Math.random() * (2 - 1 + 1)) + 1;
 
         this.gameLoop();
-        this.loop = setInterval(() => this.gameLoop(), 5000);    
     }
 
     gameLoop()  {
-        if (this.j1.hp && this.j2.hp) {
-            this.player = this.player === 1 ? 2 : 1;
-            this.root.innerHTML = '';
-            back('name');
-            const section = document.createElement('section');
-            section.id = 'game-screen';
-            section.classList.add('columns');
-            banner(`Au tour de ${this.j().name} de jouer`);
-            this.root.appendChild(section);
+        this.player = this.player === 1 ? 2 : 1;
+        this.root.innerHTML = '';
+        back('name');
+        const section = document.createElement('section');
+        section.id = 'game-screen';
+        section.classList.add('columns');
+        banner(`Au tour de ${this.j().name} de jouer`);
+        this.root.appendChild(section);
 
-
-
-            this.gameScreen();
-        } else {
-            clearInterval(this.loop);
-        }
+        this.gameScreen();
     }
 
     j() {
@@ -210,10 +203,8 @@ export class Game {
         const spell = e.target.dataset.spell;
         this.j().attack(spell, this.opponent());
 
-        clearInterval(this.loop);
         if (this.j1.hp > 0 && this.j2.hp > 0) {
             this.gameLoop();
-            this.loop = setInterval(() => this.gameLoop(), 5000);
         } else {
             localStorage.setItem('winner', this.j1.hp > 0 ? this.j1.name : this.j2.name);
             redirect('results');
