@@ -3,7 +3,7 @@ export default class Router {
         const uri = this.getUrlParams(window.location.search);
         this.pages = Pages;
         this.pagesName = ['name', 'game', 'results'];
-        this.checkURI(uri);
+        this.redirect(uri);
     }
 
     getUrlParams(search) {
@@ -17,7 +17,7 @@ export default class Router {
         return params
     }
 
-    checkURI(uri) {
+    redirect(uri) {
         if (uri && this.pagesName.includes(uri.pages)) {
             new this.pages[uri.pages];
         } else {

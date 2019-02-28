@@ -1,6 +1,7 @@
 export default class Fighter {
     constructor() {
         this.hp = 200;
+        this.name = '';
     }
     
     attack(spell, opponent) {
@@ -19,7 +20,7 @@ export default class Fighter {
     }
 
     damage(spell) {
-        const multiplicator = this.strenght / 10;
+        const multiplicator = this.strength / 10;
         
         return (spell * multiplicator);
     }
@@ -33,26 +34,32 @@ export default class Fighter {
 }
 
 
-export class Arthur extends Fighter {
+export class Alpha extends Fighter {
     constructor() {
         super();
 
-        this.strenght = 25;
+        this.strength = 25;
         this.defence = 15;
         this.spells = {
-            'BDF': 20,
+            'Boule de feu': 20,
+            'Eclat de givre': 15
         }
+        
+        !localStorage.getItem('j1') ? localStorage.setItem('j1', JSON.stringify(this)) : null;
     }
 }
 
-export class Enzo extends Fighter {
+export class Beta extends Fighter {
     constructor() {
         super();
 
-        this.strenght = 20;
-        this.defence = 30;
+        this.strength = 20;
+        this.defence = 20;
         this.spells = {
-            'RASENGAN': 20,
+            'Rasengan': 20,
+            'Chidori': 15
         }
+
+        !localStorage.getItem('j2') ? localStorage.setItem('j2', JSON.stringify(this)) : null;
     }
 }
